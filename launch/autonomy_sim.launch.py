@@ -1,5 +1,6 @@
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import TimerAction
 
 def generate_launch_description():
     ld = LaunchDescription()
@@ -19,8 +20,13 @@ def generate_launch_description():
         package="autonomy",
         executable="missionman"
     )
+
+    ta = TimerAction(period=5., actions=[task_node])
+    ma = TimerAction(period=10., actions=[mission_node])
     ld.add_action(cop_node)
     ld.add_action(sim_node)
-    ld.add_action(task_node)
-    ld.add_action(mission_node)
+    #ld.add_action(task_node)
+    #ld.add_action(mission_node)
+    ld.add_action(ta)
+    ld.add_action(ma)
     return ld
